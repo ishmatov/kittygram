@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, mixins
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -101,3 +101,14 @@ class OwnerViewSet(viewsets.ModelViewSet):
 #         # И отбираем только нужные комментарии
 #         new_queryset = Comment.objects.filter(cat=cat_id)
 #         return new_queryset
+
+
+class CreateRetrieveViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin,
+                            viewsets.GenericViewSet):
+    # В теле класса никакой код не нужен! Пустячок, а приятно.
+    pass
+
+
+class LightCatViewSet(CreateRetrieveViewSet):
+    queryset = Cat.objects.all()
+    serializer_class = CatSerializer

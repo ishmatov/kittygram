@@ -3,17 +3,14 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
 from cats.views import (
-    CatList,
-    CatDetail,
-    APICat,
-    APICatDetail,
-    CatViewSet,
-    OwnerViewSet
+    CatList, CatDetail, APICat, APICatDetail,
+    CatViewSet, OwnerViewSet, LightCatViewSet
 )
 
 router = DefaultRouter()
 router.register('api/v3/cats', CatViewSet)
 router.register('api/v3/owners', OwnerViewSet)
+router.register(r'mycats', LightCatViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
