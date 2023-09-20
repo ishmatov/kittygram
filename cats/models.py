@@ -1,6 +1,15 @@
 from django.db import models
 
 
+CHOICES = (
+        ('Gray', 'Серый'),
+        ('Black', 'Чёрный'),
+        ('White', 'Белый'),
+        ('Ginger', 'Рыжий'),
+        ('Mixed', 'Смешанный'),
+    )
+
+
 class Owner(models.Model):
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
@@ -18,12 +27,14 @@ class Achievement(models.Model):
 
 class Cat(models.Model):
     name = models.CharField(max_length=16)
-    color = models.CharField(max_length=16)
-    birth_year = models.IntegerField(blank=True, null=True)
+    color = models.CharField(max_length=16, choices=CHOICES)
+    birth_year = models.IntegerField()
     owner = models.ForeignKey(
         Owner,
         related_name='cats',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     achievements = models.ManyToManyField(
         Achievement,
