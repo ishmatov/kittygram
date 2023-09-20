@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
 
 from cats.views import (
     CatList, CatDetail, APICat, APICatDetail,
@@ -19,5 +20,6 @@ urlpatterns = [
     path('api/v2/cats/', APICat.as_view()),
     path('api/v2/cats/<int:pk>/', APICatDetail.as_view()),
     path('admin', admin.site.urls),
+    path('api-token-auth/', views.obtain_auth_token),
 ]
 
