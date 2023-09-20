@@ -6,7 +6,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 
 from .models import Cat, Owner
-from .serializers import CatSerializer, OwnerSerializer
+from .serializers import CatSerializer, OwnerSerializer, CatListSerializer
 
 
 class CatList(generics.ListCreateAPIView):
@@ -68,6 +68,14 @@ class CatViewSet(viewsets.ModelViewSet):
     queryset = Cat.objects.all()
     serializer_class = CatSerializer
 
+    def get_serializer_class(self):
+        # Если запрошенное действие (action) — получение списка объектов ('list')
+        if self.action == 'list':
+            # ...то применяем CatListSerializer
+            return CatListSerializer
+        # А если запрошенное действие — не 'list', применяем CatSerializer
+        return CatSerializer
+
     @action(detail=False, url_path='recent-white-cats')
     def recent_white_cats(self, request):
         # Нужны только последние пять котиков белого цвета
@@ -76,6 +84,7 @@ class CatViewSet(viewsets.ModelViewSet):
         # и разрешим работу со списком объектов
         serializer = self.get_serializer(cats, many=True)
         return Response(serializer.data)
+
 
 class OwnerViewSet(viewsets.ModelViewSet):
     queryset = Owner.objects.all()

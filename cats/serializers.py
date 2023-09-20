@@ -86,3 +86,9 @@ class CatSerializer(serializers.ModelSerializer):
         return cat
 
 
+class CatListSerializer(serializers.ModelSerializer):
+    color = serializers.ChoiceField(choices=CHOICES)
+
+    class Meta:
+        model = Cat
+        fields = ('id', 'name', 'color')
