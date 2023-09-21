@@ -20,6 +20,10 @@ urlpatterns = [
     path('api/v2/cats/', APICat.as_view()),
     path('api/v2/cats/<int:pk>/', APICatDetail.as_view()),
     path('admin', admin.site.urls),
-    path('api-token-auth/', views.obtain_auth_token),
-]
 
+    # Djoser создаст набор необходимых эндпоинтов.
+    # базовые, для управления пользователями в Django:
+    path('auth/', include('djoser.urls')),
+    # JWT-эндпоинты, для управления JWT-токенами:
+    path('auth/', include('djoser.urls.jwt')),
+]
